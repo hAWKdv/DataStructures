@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\BFS.cs" />
+    <Compile Include="Algorithms\Common\AlgorithmCore.cs" />
     <Compile Include="Algorithms\Delegates\TraverseManipulation.cs" />
     <Compile Include="Algorithms\DFS.cs" />
     <Compile Include="Algorithms\Contracts\IShortestPath.cs" />

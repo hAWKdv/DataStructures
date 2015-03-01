@@ -20,6 +20,14 @@
             this.nodes = new HashSet<INode<T>>();
         }
 
+        public int Size
+        {
+            get
+            {
+                return this.nodes.Count;
+            }
+        }
+
         public IShortestPath<T> ShortestPathStrategy
         {
             get
@@ -75,26 +83,25 @@
 
             if (node != null)
             {
-                if (node.Connections.Count != 0)
+                if (node.AdjacentEdges.Count != 0)
                 {
-                    for (int i = 0; i < node.Connections.Count; i++)
+                    for (int i = 0; i < node.AdjacentEdges.Count; i++)
                     {
-                        var connection = node.Connections[i];
+                        var connection = node.AdjacentEdges[i];
 
-                        for (int j = 0; j < connection.Node.Connections.Count; j++)
+                        for (int j = 0; j < connection.Node.AdjacentEdges.Count; j++)
                         {
-                            var neighbourConnection = connection.Node.Connections[j];
+                            var neighbourConnection = connection.Node.AdjacentEdges[j];
 
                             if (neighbourConnection.Node.Equals(node))
                             {
-                                connection.Node.Connections.Remove(neighbourConnection);
+                                connection.Node.AdjacentEdges.Remove(neighbourConnection);
                             }
                         }
                     }
                 }
 
                 this.nodes.Remove(node);
-                node = null;
             }
         }
 
@@ -123,7 +130,7 @@
 
         public void Traverse(INode<T> startNode, TraverseManipulation<T> manipulation)
         {
-            if (this.ShortestPathStrategy == null)
+            if (this.TraversingStrategy == null)
             {
                 throw new NullAlgorithmStrategyException();
             }

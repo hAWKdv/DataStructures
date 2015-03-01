@@ -25,7 +25,7 @@
         /// <summary>
         /// Set of neighbour nodes.
         /// </summary>
-        IList<IEdge<T>> Connections { get; }
+        IList<IEdge<T>> AdjacentEdges { get; }
 
         /// <summary>
         /// Performs dual (undirected) connection with the specified node

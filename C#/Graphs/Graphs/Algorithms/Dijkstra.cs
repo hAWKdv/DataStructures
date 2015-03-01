@@ -4,15 +4,14 @@
     using Graphs.Components.Contracts;
     using Graphs.Exceptions;
     using Contracts;
+    using Graphs.Algorithms.Common;
 
-    public sealed class Dijkstra<T> : IShortestPath<T>
+    public sealed class Dijkstra<T> : AlgorithmCore<T>, IShortestPath<T>
         where T : IComparable
     {
         public Dijkstra()
         {
         }
-
-        public Graph<T> Graph { get; set; }
 
         public uint CalculateShortestPath(INode<T> startNode, INode<T> targetNode)
         {
@@ -39,6 +38,8 @@
                 }
             }
 
+            this.UnvisitAllNodes();
+
             return cost;
         }
 
@@ -62,7 +63,7 @@
 
         private void CalculateNeighboursCost(INode<T> node)
         {
-            foreach (IEdge<T> connection in node.Connections)
+            foreach (IEdge<T> connection in node.AdjacentEdges)
             {
                 uint newCost = node.Cost + connection.Weight;
 

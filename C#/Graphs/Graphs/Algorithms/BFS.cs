@@ -7,22 +7,22 @@
     using Graphs.Algorithms.Delegates;
     using Graphs.Algorithms.Common;
 
-    public sealed class DFS<T> : AlgorithmCore<T>, ITraverse<T>
+    public sealed class BFS<T> : AlgorithmCore<T>, ITraverse<T>
         where T : IComparable
     {
-        public DFS()
+        public BFS()
         {
         }
 
         public void Traverse(INode<T> startNode, TraverseManipulation<T> manipulation)
         {
-            Stack<INode<T>> stack = new Stack<INode<T>>();
+            Queue<INode<T>> queue = new Queue<INode<T>>();
 
-            stack.Push(startNode);
+            queue.Enqueue(startNode);
 
-            while (stack.Count != 0)
+            while (queue.Count != 0)
             {
-                INode<T> currentNode = stack.Pop();
+                INode<T> currentNode = queue.Dequeue();
 
                 if (!currentNode.IsVisited)
                 {
@@ -31,7 +31,7 @@
 
                     foreach (IEdge<T> edge in currentNode.AdjacentEdges)
                     {
-                        stack.Push(edge.Node);
+                        queue.Enqueue(edge.Node);
                     }
                 }
             }

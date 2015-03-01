@@ -37,16 +37,18 @@
 
             TraverseManipulation<string> manipulation = delegate(INode<string> node)
             {
-                Console.WriteLine("Just a test");
                 Console.WriteLine(node.Value);
             };
 
+            graph.Traverse(a, manipulation);
+
+            graph.TraversingStrategy = new BFS<string>();
             graph.Traverse(a, manipulation);
         }
 
         public static void PrintConnections(INode<string> node)
         {
-            foreach (var connections in node.Connections)
+            foreach (var connections in node.AdjacentEdges)
             {
                 Console.WriteLine("{0} -[{1}]-> {2}", node.Value, connections.Weight, connections.Node.Value);
             }

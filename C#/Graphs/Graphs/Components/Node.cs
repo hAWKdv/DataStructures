@@ -27,7 +27,7 @@
 
         public bool IsVisited { get; set; }
 
-        public IList<IEdge<T>> Connections
+        public IList<IEdge<T>> AdjacentEdges
         {
             get
             {
@@ -37,13 +37,13 @@
 
         public void UndirectedConnection(INode<T> node, uint weight = 0)
         {
-            this.Connections.Add(new Edge<T>(node, weight));
-            node.Connections.Add(new Edge<T>(this, weight));
+            this.AdjacentEdges.Add(new Edge<T>(node, weight));
+            node.AdjacentEdges.Add(new Edge<T>(this, weight));
         }
 
         public void DirectedConnection(INode<T> node, uint weight = 0)
         {
-            this.Connections.Add(new Edge<T>(node, weight));
+            this.AdjacentEdges.Add(new Edge<T>(node, weight));
         }
 
         public int CompareTo(INode<T> other)
