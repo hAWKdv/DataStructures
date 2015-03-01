@@ -2,17 +2,17 @@
 {
     using System;
     using Graphs.Components.Contracts;
-    using Graphs.Exceptions.Common;
+    using Graphs.Exceptions;
+    using Contracts;
 
-    public sealed class Dijkstra<T>
+    public sealed class Dijkstra<T> : IShortestPath<T>
         where T : IComparable
     {
-        public Dijkstra(Graph<T> graph)
+        public Dijkstra()
         {
-            this.Graph = graph;
         }
 
-        public Graph<T> Graph { get; private set; }
+        public Graph<T> Graph { get; set; }
 
         public uint CalculateShortestPath(INode<T> startNode, INode<T> targetNode)
         {

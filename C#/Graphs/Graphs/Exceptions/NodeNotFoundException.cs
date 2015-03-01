@@ -1,4 +1,4 @@
-﻿namespace Graphs.Exceptions.Common
+﻿namespace Graphs.Exceptions
 {
     using System;
     using Common;

@@ -30,9 +30,9 @@
             }
 
             //graph.RemoveNode("B");
-
-            Dijkstra<string> dijkstra = new Dijkstra<string>(graph);
-            Console.WriteLine(dijkstra.CalculateShortestPath(b, d));
+            graph.ShortestPathStrategy = new Dijkstra<string>();
+            
+            Console.WriteLine(graph.CalculateShortestPath(b, d));
         }
 
         public static void PrintConnections(INode<string> node)
