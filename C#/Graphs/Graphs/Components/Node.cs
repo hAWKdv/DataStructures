@@ -7,11 +7,11 @@
     public sealed class Node<T> : INode<T>
         where T : IComparable
     {
-        private List<IConnection<T>> connections;
+        private List<IEdge<T>> connections;
 
         public Node()
         {
-            this.connections = new List<IConnection<T>>();
+            this.connections = new List<IEdge<T>>();
             this.Cost = uint.MaxValue;
         }
 
@@ -27,7 +27,7 @@
 
         public bool IsVisited { get; set; }
 
-        public IList<IConnection<T>> Connections
+        public IList<IEdge<T>> Connections
         {
             get
             {
@@ -37,13 +37,13 @@
 
         public void ConnectWith(INode<T> node, uint weight = 0)
         {
-            this.Connections.Add(new Connection<T>(node, weight));
-            node.Connections.Add(new Connection<T>(this, weight));
+            this.Connections.Add(new Edge<T>(node, weight));
+            node.Connections.Add(new Edge<T>(this, weight));
         }
 
         public void ConnectTo(INode<T> node, uint weight = 0)
         {
-            this.Connections.Add(new Connection<T>(node, weight));
+            this.Connections.Add(new Edge<T>(node, weight));
         }
 
         public int CompareTo(INode<T> other)

@@ -30,7 +30,7 @@
 
                 if (!smallest.Equals(targetNode))
                 {
-                    this.Traverse(smallest);
+                    this.CalculateNeighboursCost(smallest);
                 }
                 else
                 {
@@ -60,9 +60,9 @@
             return smallest;
         }
 
-        private void Traverse(INode<T> node)
+        private void CalculateNeighboursCost(INode<T> node)
         {
-            foreach (IConnection<T> connection in node.Connections)
+            foreach (IEdge<T> connection in node.Connections)
             {
                 uint newCost = node.Cost + connection.Weight;
 

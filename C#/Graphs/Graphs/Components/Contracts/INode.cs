@@ -25,7 +25,7 @@
         /// <summary>
         /// Set of neighbour nodes.
         /// </summary>
-        IList<IConnection<T>> Connections { get; }
+        IList<IEdge<T>> Connections { get; }
 
         /// <summary>
         /// Performs dual connection with the specified node

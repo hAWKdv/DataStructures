@@ -3,17 +3,17 @@
     using System;
     using Graphs.Components.Contracts;
 
-    public class Connection<T> : IConnection<T>
+    public class Edge<T> : IEdge<T>
         where T : IComparable
     {
         private const uint DEF_WEIGHT = 0;
 
-        public Connection(INode<T> node)
+        public Edge(INode<T> node)
             : this(node, DEF_WEIGHT)
         {
         }
 
-        public Connection(INode<T> node, uint weight)
+        public Edge(INode<T> node, uint weight)
         {
             this.Node = node;
             this.Weight = weight;

@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface IConnection<T>
+    public interface IEdge<T>
         where T : IComparable
     {
         INode<T> Node { get; }
