@@ -39,11 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Delegates\TraverseManipulation.cs" />
+    <Compile Include="Algorithms\DFS.cs" />
     <Compile Include="Algorithms\Contracts\IShortestPath.cs" />
+    <Compile Include="Algorithms\Contracts\ITraverse.cs" />
     <Compile Include="Algorithms\Dijkstra.cs" />
-    <Compile Include="Algorithms\Traversing.cs" />
-    <Compile Include="Components\Connection.cs" />
-    <Compile Include="Components\Contracts\IConnection.cs" />
+    <Compile Include="Components\Edge.cs" />
+    <Compile Include="Components\Contracts\IEdge.cs" />
     <Compile Include="Components\Node.cs" />
     <Compile Include="Components\Contracts\INode.cs" />
     <Compile Include="Exceptions\Common\GraphException.cs" />
@@ -52,6 +54,7 @@
     <Compile Include="Graph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

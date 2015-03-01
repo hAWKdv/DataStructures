@@ -5,6 +5,7 @@
     using Graphs.Components.Contracts;
     using Graphs;
     using Graphs.Algorithms;
+    using Graphs.Algorithms.Delegates;
 
     public class Program
     {
@@ -15,11 +16,11 @@
             var c = new Node<string>("C");
             var d = new Node<string>("D");
 
-            a.ConnectWith(b, 10);
-            a.ConnectWith(c, 3);
-            a.ConnectWith(d, 6);
-            b.ConnectWith(c, 1);
-            c.ConnectWith(d, 7);
+            a.UndirectedConnection(b, 10);
+            a.UndirectedConnection(c, 3);
+            a.UndirectedConnection(d, 6);
+            b.UndirectedConnection(c, 1);
+            c.UndirectedConnection(d, 7);
 
             var graph = new Graph<string>();
             graph.AddNodes(a, b, c, d);
@@ -31,8 +32,16 @@
 
             //graph.RemoveNode("B");
             graph.ShortestPathStrategy = new Dijkstra<string>();
-            
+            graph.TraversingStrategy = new DFS<string>();
             Console.WriteLine(graph.CalculateShortestPath(b, d));
+
+            TraverseManipulation<string> manipulation = delegate(INode<string> node)
+            {
+                Console.WriteLine("Just a test");
+                Console.WriteLine(node.Value);
+            };
+
+            graph.Traverse(a, manipulation);
         }
 
         public static void PrintConnections(INode<string> node)

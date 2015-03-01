@@ -28,16 +28,16 @@
         IList<IEdge<T>> Connections { get; }
 
         /// <summary>
-        /// Performs dual connection with the specified node
+        /// Performs dual (undirected) connection with the specified node
         /// </summary>
         /// <param name="node">Node to connect with</param>
-        void ConnectWith(INode<T> node, uint weight);
+        void UndirectedConnection(INode<T> node, uint weight);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="node"></param>
         /// <param name="weight"></param>
-        void ConnectTo(INode<T> node, uint weight);
+        void DirectedConnection(INode<T> node, uint weight);
     }
 }

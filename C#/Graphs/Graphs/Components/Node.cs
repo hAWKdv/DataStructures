@@ -35,13 +35,13 @@
             }
         }
 
-        public void ConnectWith(INode<T> node, uint weight = 0)
+        public void UndirectedConnection(INode<T> node, uint weight = 0)
         {
             this.Connections.Add(new Edge<T>(node, weight));
             node.Connections.Add(new Edge<T>(this, weight));
         }
 
-        public void ConnectTo(INode<T> node, uint weight = 0)
+        public void DirectedConnection(INode<T> node, uint weight = 0)
         {
             this.Connections.Add(new Edge<T>(node, weight));
         }

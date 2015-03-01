@@ -6,12 +6,14 @@
     using Graphs.Algorithms.Contracts;
     using Graphs.Exceptions;
     using Graphs.Exceptions.Common;
+    using Graphs.Algorithms.Delegates;
 
     public sealed class Graph<T>
         where T : IComparable
     {
         private HashSet<INode<T>> nodes;
         private IShortestPath<T> shortestPathStrategy;
+        private ITraverse<T> traversingStrategy;
 
         public Graph()
         {
@@ -29,6 +31,20 @@
             {
                 this.shortestPathStrategy = value;
                 this.shortestPathStrategy.Graph = this;
+            }
+        }
+
+        public ITraverse<T> TraversingStrategy
+        {
+            get
+            {
+                return this.traversingStrategy;
+            }
+
+            set
+            {
+                this.traversingStrategy = value;
+                this.traversingStrategy.Graph = this;
             }
         }
 
@@ -103,6 +119,16 @@
             }
 
             return this.ShortestPathStrategy.CalculateShortestPath(startNode, targetNode);
+        }
+
+        public void Traverse(INode<T> startNode, TraverseManipulation<T> manipulation)
+        {
+            if (this.ShortestPathStrategy == null)
+            {
+                throw new NullAlgorithmStrategyException();
+            }
+
+            this.traversingStrategy.Traverse(startNode, manipulation);
         }
     }
 }
