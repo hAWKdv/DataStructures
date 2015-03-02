@@ -81,6 +81,7 @@
                 if (edge.Node.Equals(y))
                 {
                     x.AdjacentEdges.Remove(edge);
+                    break;
                 }
             }
         }

@@ -20,6 +20,7 @@
 
         public Queue<IDualEdge<T>> Edges { get; private set; }
 
+        // Under heavy construction
         public Graph<T> FindMST()
         {
             this.FillEdges();
@@ -48,8 +49,7 @@
                     {
                         if (adjEdge.Node.IsVisited)
                         {
-                            // remove connection
-                            
+                            edge.FirstNode.DisconnectFrom(edge.SecondNode);
                             return;
                         }
                     }

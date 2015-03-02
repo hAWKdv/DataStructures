@@ -33,9 +33,12 @@
 
             //graph.RemoveNode("B");
 
-            c.DisconnectFrom(d);
+            //c.DisconnectFrom(d);
 
-            foreach (var node in graph.Nodes)
+            graph.MSTStrategy = new Kruskal<string>();
+            var mst = graph.FindMST();
+
+            foreach (var node in mst.Nodes)
             {
                 PrintConnections(node);
             }
@@ -60,9 +63,6 @@
             {
                 Console.WriteLine(node.Value);
             });
-
-            //graph.MSTStrategy = new Kruskal<string>();
-            //var mst = graph.FindMST();
         }
 
         public static void PrintConnections(INode<string> node)
