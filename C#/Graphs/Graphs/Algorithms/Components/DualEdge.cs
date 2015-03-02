@@ -20,17 +20,19 @@
 
         public int Weight { get; set; }
 
-        public bool Equals(IDualEdge<T> x, IDualEdge<T> y)
+        public override bool Equals(object sec)
         {
-            bool areMatching = x.FirstNode.Equals(y.FirstNode) && x.SecondNode.Equals(y.SecondNode);
-            bool areDifferent = x.FirstNode.Equals(y.SecondNode) && x.SecondNode.Equals(y.FirstNode);
+            IDualEdge<T> y = (IDualEdge<T>)sec;
+
+            bool areMatching = this.FirstNode.Equals(y.FirstNode) && this.SecondNode.Equals(y.SecondNode);
+            bool areDifferent = this.FirstNode.Equals(y.SecondNode) && this.SecondNode.Equals(y.FirstNode);
 
             return areMatching || areDifferent;
         }
 
-        public int GetHashCode(IDualEdge<T> obj)
+        public override int GetHashCode()
         {
-            return (int)((obj.FirstNode.Cost + obj.SecondNode.Cost) % 34);
+            return (int)((this.FirstNode.Cost + this.SecondNode.Cost) % 34);
         }
     }
 }

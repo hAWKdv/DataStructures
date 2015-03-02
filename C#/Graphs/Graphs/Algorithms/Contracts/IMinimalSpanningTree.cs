@@ -10,7 +10,7 @@
     {
         Graph<T> Graph { get; set; }
 
-        ISet<IDualEdge<T>> Edges { get; }
+        //ISet<IDualEdge<T>> Edges { get; }
 
         Graph<T> FindMST();
     }

@@ -7,6 +7,6 @@
     {
         INode<T> Node { get; }
 
-        uint Weight { get; }
+        int Weight { get; }
     }
 }

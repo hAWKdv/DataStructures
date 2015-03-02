@@ -12,7 +12,7 @@
         public Node()
         {
             this.connections = new List<IEdge<T>>();
-            this.Cost = uint.MaxValue;
+            this.Cost = int.MaxValue;
         }
 
         public Node(T value)
@@ -23,7 +23,7 @@
 
         public T Value { get; set; }
 
-        public uint Cost { get; set; }
+        public int Cost { get; set; }
 
         public bool IsVisited { get; set; }
 
@@ -35,13 +35,13 @@
             }
         }
 
-        public void UndirectedConnection(INode<T> node, uint weight = 0)
+        public void UndirectedConnection(INode<T> node, int weight = 0)
         {
             this.AdjacentEdges.Add(new Edge<T>(node, weight));
             node.AdjacentEdges.Add(new Edge<T>(this, weight));
         }
 
-        public void DirectedConnection(INode<T> node, uint weight = 0)
+        public void DirectedConnection(INode<T> node, int weight = 0)
         {
             this.AdjacentEdges.Add(new Edge<T>(node, weight));
         }

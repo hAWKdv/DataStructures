@@ -133,7 +133,7 @@
             return null;
         }
 
-        public uint CalculateShortestPath(INode<T> startNode, INode<T> targetNode)
+        public int CalculateShortestPath(INode<T> startNode, INode<T> targetNode)
         {
             if (this.ShortestPathStrategy == null)
             {

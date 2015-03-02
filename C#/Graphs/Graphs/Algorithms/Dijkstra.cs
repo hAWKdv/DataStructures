@@ -13,14 +13,14 @@
         {
         }
 
-        public uint CalculateShortestPath(INode<T> startNode, INode<T> targetNode)
+        public int CalculateShortestPath(INode<T> startNode, INode<T> targetNode)
         {
             if (!this.Graph.Nodes.Contains(startNode) || !this.Graph.Nodes.Contains(targetNode))
             {
                 throw new NodeNotFoundException();
             }
 
-            uint cost = 0;
+            int cost = 0;
             startNode.Cost = 0;
 
             while (true)
@@ -65,7 +65,7 @@
         {
             foreach (IEdge<T> connection in node.AdjacentEdges)
             {
-                uint newCost = node.Cost + connection.Weight;
+                int newCost = node.Cost + connection.Weight;
 
                 if (connection.Node.Cost > newCost)
                 {

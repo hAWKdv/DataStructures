@@ -5,18 +5,19 @@
     using Components.Contracts;
     using Contracts;
     using Components;
+    using System.Linq;
 
     public class Kruskal<T> : IMinimalSpanningTree<T>
         where T : IComparable 
     {
         public Kruskal()
         {
-            this.Edges = new HashSet<IDualEdge<T>>();
+            this.Edges = new List<IDualEdge<T>>();
         }
 
         public Graph<T> Graph { get; set; }
 
-        public ISet<IDualEdge<T>> Edges { get; private set; }
+        public IList<IDualEdge<T>> Edges { get; private set; }
 
         public Graph<T> FindMST()
         {
@@ -33,20 +34,17 @@
 
         private void FillEdges()
         {
-            this.Edges.Clear();
+            ISet<IDualEdge<T>> edges = new HashSet<IDualEdge<T>>();
 
             foreach (var node in this.Graph.Nodes)
             {
                 foreach (var edge in node.AdjacentEdges)
                 {
-                    var test = new DualEdge<T>(node, edge.Node, (int)edge.Weight);
-                    var test2 = new DualEdge<T>(edge.Node, node, (int)edge.Weight);
-
-                    Console.WriteLine(test.Equals(test2));
-
-                    this.Edges.Add(test);
+                    edges.Add(new DualEdge<T>(node, edge.Node, edge.Weight));
                 }
             }
+
+            this.Edges = edges.OrderBy(e => e.Weight).ToList();
         }
     }
 }

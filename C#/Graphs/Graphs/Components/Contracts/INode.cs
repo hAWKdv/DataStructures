@@ -15,7 +15,7 @@
         /// Cost of the node.
         /// Set to infinity by default.
         /// </summary>
-        uint Cost { get; set; }
+        int Cost { get; set; }
 
         /// <summary>
         /// 
@@ -31,13 +31,13 @@
         /// Performs dual (undirected) connection with the specified node
         /// </summary>
         /// <param name="node">Node to connect with</param>
-        void UndirectedConnection(INode<T> node, uint weight);
+        void UndirectedConnection(INode<T> node, int weight);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="node"></param>
         /// <param name="weight"></param>
-        void DirectedConnection(INode<T> node, uint weight);
+        void DirectedConnection(INode<T> node, int weight);
     }
 }

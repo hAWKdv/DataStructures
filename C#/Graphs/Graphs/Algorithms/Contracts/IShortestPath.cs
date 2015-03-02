@@ -8,6 +8,6 @@
     {
         Graph<T> Graph { get; set; }
 
-        uint CalculateShortestPath(INode<T> startNode, INode<T> targetNode);
+        int CalculateShortestPath(INode<T> startNode, INode<T> targetNode);
     }
 }

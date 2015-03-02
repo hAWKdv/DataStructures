@@ -4,7 +4,7 @@
     using Graphs.Components.Contracts;
     using System.Collections.Generic;
 
-    public interface IDualEdge<T> : IEqualityComparer<IDualEdge<T>>
+    public interface IDualEdge<T>
         where T : IComparable
     {
         INode<T> FirstNode { get; set; }
