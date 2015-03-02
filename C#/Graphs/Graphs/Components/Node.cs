@@ -46,6 +46,15 @@
             this.AdjacentEdges.Add(new Edge<T>(node, weight));
         }
 
+        public void DisconnectFrom(INode<T> node)
+        {
+            if (this.AdjacentEdges.Count != 0)
+            {
+                this.DestroyLink(this, node);
+                this.DestroyLink(node, this);
+            }
+        }
+
         public int CompareTo(INode<T> other)
         {
             return this.Value.CompareTo(other.Value);
@@ -54,6 +63,26 @@
         public bool Equals(INode<T> other)
         {
             return this.Value.CompareTo(other.Value) == 0;
+        }
+
+        public object Clone()
+        {
+            INode<T> node = new Node<T>(this.Value);
+
+            return node;
+        }
+
+        private void DestroyLink(INode<T> x, INode<T> y)
+        {
+            for (int i = 0; i < x.AdjacentEdges.Count; i++)
+            {
+                IEdge<T> edge = x.AdjacentEdges[i];
+
+                if (edge.Node.Equals(y))
+                {
+                    x.AdjacentEdges.Remove(edge);
+                }
+            }
         }
     }
 }

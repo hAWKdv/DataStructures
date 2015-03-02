@@ -20,7 +20,7 @@
 
             queue.Enqueue(startNode);
 
-            while (queue.Count != 0)
+            while (queue.Count > 0)
             {
                 INode<T> currentNode = queue.Dequeue();
 

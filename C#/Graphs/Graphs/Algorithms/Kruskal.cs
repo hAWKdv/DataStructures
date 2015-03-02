@@ -6,30 +6,57 @@
     using Contracts;
     using Components;
     using System.Linq;
+    using Graphs.Components.Contracts;
 
     public class Kruskal<T> : IMinimalSpanningTree<T>
         where T : IComparable 
     {
         public Kruskal()
         {
-            this.Edges = new List<IDualEdge<T>>();
+            this.Edges = new Queue<IDualEdge<T>>();
         }
 
         public Graph<T> Graph { get; set; }
 
-        public IList<IDualEdge<T>> Edges { get; private set; }
+        public Queue<IDualEdge<T>> Edges { get; private set; }
 
         public Graph<T> FindMST()
         {
             this.FillEdges();
 
-            foreach (var item in this.Edges)
-            {
-                Console.WriteLine("[{0}, {1}] -> {2}", item.FirstNode.Value, item.SecondNode.Value, item.Weight);
-            }
-            Console.WriteLine();
+            Graph<T> forest = new Graph<T>();
+            forest.TraversingStrategy = new BFS<T>();
 
-            return null;
+            while (this.Edges.Count > 0)
+            {
+                IDualEdge<T> edge = this.Edges.Dequeue();
+
+                if (!forest.Nodes.Contains(edge.FirstNode))
+                {
+                    edge.FirstNode.UndirectedConnection(edge.SecondNode, edge.Weight);
+                    forest.AddNode(edge.FirstNode);
+                }
+
+                if (!forest.Nodes.Contains(edge.SecondNode))
+                {
+                    forest.AddNode(edge.SecondNode);
+                }
+
+                forest.Traverse(edge.FirstNode, delegate(INode<T> node)
+                {
+                    foreach (IEdge<T> adjEdge in node.AdjacentEdges)
+                    {
+                        if (adjEdge.Node.IsVisited)
+                        {
+                            // remove connection
+                            
+                            return;
+                        }
+                    }
+                });
+            }
+
+            return forest;
         }
 
         private void FillEdges()
@@ -44,7 +71,9 @@
                 }
             }
 
-            this.Edges = edges.OrderBy(e => e.Weight).ToList();
+            IDualEdge<T>[] edgesArray = edges.OrderBy(e => e.Weight).ToArray();
+
+            this.Edges = new Queue<IDualEdge<T>>(edgesArray);
         }
     }
 }

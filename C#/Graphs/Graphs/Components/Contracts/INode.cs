@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    public interface INode<T> : IComparable<INode<T>>, IEquatable<INode<T>>
+    public interface INode<T> : IComparable<INode<T>>, IEquatable<INode<T>>, ICloneable
         where T : IComparable
     {
         /// <summary>
@@ -39,5 +39,10 @@
         /// <param name="node"></param>
         /// <param name="weight"></param>
         void DirectedConnection(INode<T> node, int weight);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void DisconnectFrom(INode<T> node);
     }
 }

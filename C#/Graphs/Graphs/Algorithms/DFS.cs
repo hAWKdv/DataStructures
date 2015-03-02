@@ -20,7 +20,7 @@
 
             stack.Push(startNode);
 
-            while (stack.Count != 0)
+            while (stack.Count > 0)
             {
                 INode<T> currentNode = stack.Pop();
 

@@ -31,12 +31,18 @@
             var graph = new Graph<string>();
             graph.AddNodes(a, b, c, d, e, z);
 
-            //foreach (var node in graph.Nodes)
-            //{
-            //    PrintConnections(node);
-            //}
-
             //graph.RemoveNode("B");
+
+            c.DisconnectFrom(d);
+
+            foreach (var node in graph.Nodes)
+            {
+                PrintConnections(node);
+            }
+
+
+            return;
+
             graph.ShortestPathStrategy = new Dijkstra<string>();
             graph.TraversingStrategy = new DFS<string>();
             Console.WriteLine(graph.CalculateShortestPath(a, z));
@@ -55,8 +61,8 @@
                 Console.WriteLine(node.Value);
             });
 
-            graph.MSTStrategy = new Kruskal<string>();
-            var mst = graph.FindMST();
+            //graph.MSTStrategy = new Kruskal<string>();
+            //var mst = graph.FindMST();
         }
 
         public static void PrintConnections(INode<string> node)
