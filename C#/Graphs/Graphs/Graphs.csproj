@@ -41,11 +41,15 @@
   <ItemGroup>
     <Compile Include="Algorithms\BFS.cs" />
     <Compile Include="Algorithms\Common\AlgorithmCore.cs" />
+    <Compile Include="Algorithms\Components\Contracts\IDualEdge.cs" />
+    <Compile Include="Algorithms\Components\DualEdge.cs" />
+    <Compile Include="Algorithms\Contracts\IMinimalSpanningTree.cs" />
     <Compile Include="Algorithms\Delegates\TraverseManipulation.cs" />
     <Compile Include="Algorithms\DFS.cs" />
     <Compile Include="Algorithms\Contracts\IShortestPath.cs" />
     <Compile Include="Algorithms\Contracts\ITraverse.cs" />
     <Compile Include="Algorithms\Dijkstra.cs" />
+    <Compile Include="Algorithms\Kruskal.cs" />
     <Compile Include="Components\Edge.cs" />
     <Compile Include="Components\Contracts\IEdge.cs" />
     <Compile Include="Components\Node.cs" />

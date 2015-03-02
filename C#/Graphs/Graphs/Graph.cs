@@ -14,6 +14,7 @@
         private HashSet<INode<T>> nodes;
         private IShortestPath<T> shortestPathStrategy;
         private ITraverse<T> traversingStrategy;
+        private IMinimalSpanningTree<T> mstStrategy;
 
         public Graph()
         {
@@ -53,6 +54,20 @@
             {
                 this.traversingStrategy = value;
                 this.traversingStrategy.Graph = this;
+            }
+        }
+
+        public IMinimalSpanningTree<T> MSTStrategy
+        {
+            get
+            {
+                return this.mstStrategy;
+            }
+
+            set
+            {
+                this.mstStrategy = value;
+                this.mstStrategy.Graph = this;
             }
         }
 
@@ -136,6 +151,16 @@
             }
 
             this.traversingStrategy.Traverse(startNode, manipulation);
+        }
+
+        public Graph<T> FindMST()
+        {
+            if (this.MSTStrategy == null)
+            {
+                throw new NullAlgorithmStrategyException();
+            }
+
+            return this.mstStrategy.FindMST();
         }
     }
 }

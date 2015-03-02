@@ -15,35 +15,48 @@
             var b = new Node<string>("B");
             var c = new Node<string>("C");
             var d = new Node<string>("D");
+            var e = new Node<string>("E");
+            var z = new Node<string>("Z");
 
-            a.UndirectedConnection(b, 10);
-            a.UndirectedConnection(c, 3);
-            a.UndirectedConnection(d, 6);
+            a.UndirectedConnection(b, 4);
+            a.UndirectedConnection(c, 2);
+            b.UndirectedConnection(d, 5);
             b.UndirectedConnection(c, 1);
-            c.UndirectedConnection(d, 7);
+            c.UndirectedConnection(d, 8);
+            c.UndirectedConnection(e, 10);
+            d.UndirectedConnection(e, 2);
+            d.UndirectedConnection(z, 6);
+            e.UndirectedConnection(z, 3);
 
             var graph = new Graph<string>();
-            graph.AddNodes(a, b, c, d);
+            graph.AddNodes(a, b, c, d, e, z);
 
-            foreach (var node in graph.Nodes)
-            {
-                PrintConnections(node);
-            }
+            //foreach (var node in graph.Nodes)
+            //{
+            //    PrintConnections(node);
+            //}
 
             //graph.RemoveNode("B");
             graph.ShortestPathStrategy = new Dijkstra<string>();
             graph.TraversingStrategy = new DFS<string>();
-            Console.WriteLine(graph.CalculateShortestPath(b, d));
+            Console.WriteLine(graph.CalculateShortestPath(a, z));
+ 
 
-            TraverseManipulation<string> manipulation = delegate(INode<string> node)
+            graph.Traverse(a, delegate(INode<string> node)
             {
                 Console.WriteLine(node.Value);
-            };
+            });
 
-            graph.Traverse(a, manipulation);
+            Console.WriteLine();
 
             graph.TraversingStrategy = new BFS<string>();
-            graph.Traverse(a, manipulation);
+            graph.Traverse(a, delegate(INode<string> node)
+            {
+                Console.WriteLine(node.Value);
+            });
+
+            graph.MSTStrategy = new Kruskal<string>();
+            var mst = graph.FindMST();
         }
 
         public static void PrintConnections(INode<string> node)
