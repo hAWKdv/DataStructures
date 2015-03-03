@@ -7,6 +7,8 @@
     public sealed class DualEdge<T> : IDualEdge<T>
         where T : IComparable
     {
+        private const int HASH_CODE_C = 34;
+
         public DualEdge(INode<T> firstNode, INode<T> secondNode, int weight)
         {
             this.FirstNode = firstNode;
@@ -32,7 +34,7 @@
 
         public override int GetHashCode()
         {
-            return (int)((this.FirstNode.Cost + this.SecondNode.Cost) % 34);
+            return (this.FirstNode.Cost + this.SecondNode.Cost) % HASH_CODE_C;
         }
     }
 }

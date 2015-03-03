@@ -5,10 +5,13 @@
     using Graphs.Exceptions;
     using Contracts;
     using Graphs.Algorithms.Common;
+    using System.Collections.Generic;
 
     public sealed class Dijkstra<T> : AlgorithmCore<T>, IShortestPath<T>
         where T : IComparable
     {
+        private ISet<INode<T>> nodes;
+
         public Dijkstra()
         {
         }
@@ -23,13 +26,16 @@
             int cost = 0;
             startNode.Cost = 0;
 
-            while (true)
+            this.nodes = new HashSet<INode<T>>(this.Graph.Nodes);
+
+            while (this.nodes.Count > 0)
             {
                 INode<T> smallest = this.GetSmallestNode();
 
                 if (!smallest.Equals(targetNode))
                 {
-                    this.CalculateNeighboursCost(smallest);
+                    this.CalculateAdjacentNodesCost(smallest);
+                    this.nodes.Remove(smallest);
                 }
                 else
                 {
@@ -38,8 +44,7 @@
                 }
             }
 
-            this.UnvisitAllNodes();
-            // Reset nodes' costs
+            this.ResetNodesCosts();
 
             return cost;
         }
@@ -49,10 +54,9 @@
             INode<T> smallest = null;
             bool isSet = false;
 
-            foreach (INode<T> node in this.Graph.Nodes)
+            foreach (INode<T> node in this.nodes)
             {
-                if ((!isSet && !node.IsVisited) ||
-                    (smallest != null && smallest.Cost > node.Cost && !node.IsVisited))
+                if ((!isSet) || (smallest != null && smallest.Cost > node.Cost))
                 {
                     smallest = node;
                     isSet = true;
@@ -62,19 +66,25 @@
             return smallest;
         }
 
-        private void CalculateNeighboursCost(INode<T> node)
+        private void CalculateAdjacentNodesCost(INode<T> node)
         {
-            foreach (IEdge<T> connection in node.AdjacentEdges)
+            foreach (IEdge<T> edge in node.AdjacentEdges)
             {
-                int newCost = node.Cost + connection.Weight;
+                int newCost = node.Cost + edge.Weight;
 
-                if (connection.Node.Cost > newCost)
+                if (edge.Node.Cost > newCost)
                 {
-                    connection.Node.Cost = newCost;
+                    edge.Node.Cost = newCost;
                 }
             }
+        }
 
-            node.IsVisited = true;
+        private void ResetNodesCosts()
+        {
+            foreach (INode<T> node in this.Graph.Nodes)
+            {
+                node.Cost = int.MaxValue;
+            }
         }
     }
 }

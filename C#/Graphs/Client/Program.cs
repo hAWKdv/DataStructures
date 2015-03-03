@@ -31,6 +31,11 @@
             var graph = new Graph<string>();
             graph.AddNodes(a, b, c, d, e, z);
 
+            graph.ShortestPathStrategy = new Dijkstra<string>();
+            Console.WriteLine(graph.CalculateShortestPath(a, z));
+
+            return;
+
             //graph.RemoveNode("B");
 
             //c.DisconnectFrom(d);

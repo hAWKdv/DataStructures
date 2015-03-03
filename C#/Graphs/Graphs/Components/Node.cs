@@ -46,12 +46,20 @@
             this.AdjacentEdges.Add(new Edge<T>(node, weight));
         }
 
-        public void DisconnectFrom(INode<T> node)
+        public void Disconnect(INode<T> node)
         {
             if (this.AdjacentEdges.Count != 0)
             {
                 this.DestroyLink(this, node);
                 this.DestroyLink(node, this);
+            }
+        }
+
+        public void DisconnectFrom(INode<T> node)
+        {
+            if (this.AdjacentEdges.Count != 0)
+            {
+                this.DestroyLink(this, node);
             }
         }
 

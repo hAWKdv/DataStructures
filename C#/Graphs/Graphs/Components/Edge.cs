@@ -3,7 +3,7 @@
     using System;
     using Graphs.Components.Contracts;
 
-    public class Edge<T> : IEdge<T>
+    public sealed class Edge<T> : IEdge<T>
         where T : IComparable
     {
         private const int DEF_WEIGHT = 0;

@@ -8,7 +8,7 @@
     using System.Linq;
     using Graphs.Components.Contracts;
 
-    public class Kruskal<T> : IMinimalSpanningTree<T>
+    public sealed class Kruskal<T> : IMinimalSpanningTree<T>
         where T : IComparable 
     {
         private ISet<INode<T>> clonedNodes;
@@ -23,6 +23,7 @@
         public Graph<T> Graph
         {
             get { return this.graph; }
+
             set
             {
                 this.graph = value;
@@ -60,9 +61,9 @@
                         }
                     }
 
-                    if (visited >= 2)
+                    if (visited > 1)
                     {
-                        edge.FirstNode.DisconnectFrom(edge.SecondNode);
+                        edge.FirstNode.Disconnect(edge.SecondNode);
                         breakLoop = true;
                     }
                 });
