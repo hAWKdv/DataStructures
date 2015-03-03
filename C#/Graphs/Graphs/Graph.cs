@@ -169,22 +169,28 @@
 
             foreach (INode<T> node in this.Nodes)
             {
-                INode<T> clonedNode = (INode<T>)node.Clone();
-                clonedGraph.AddNode(clonedNode);
-            }
+                INode<T> clonedNode = clonedGraph.FindNode(node.Value);
+                this.CloneNullNode(ref clonedNode, node, clonedGraph);
 
-            foreach (INode<T> node in this.Nodes)
-            {
                 foreach (IEdge<T> edge in node.AdjacentEdges)
                 {
-                    INode<T> clonedX = clonedGraph.FindNode(node.Value);
-                    INode<T> clonedY = clonedGraph.FindNode(edge.Node.Value);
+                    INode<T> edgeNode = clonedGraph.FindNode(edge.Node.Value);
+                    this.CloneNullNode(ref edgeNode, edge.Node, clonedGraph);
 
-                    clonedX.DirectedConnection(clonedY, edge.Weight);
+                    clonedNode.DirectedConnection(edgeNode, edge.Weight);
                 }
             }
 
             return clonedGraph;
+        }
+
+        private void CloneNullNode(ref INode<T> nodeClone, INode<T> node, Graph<T> graphClone)
+        {
+            if (nodeClone == null)
+            {
+                nodeClone = (INode<T>)node.Clone();
+                graphClone.AddNode(nodeClone);
+            }
         }
     }
 }

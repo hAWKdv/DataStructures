@@ -43,7 +43,6 @@
                 PrintConnections(node);
             }
 
-
             return;
 
             graph.ShortestPathStrategy = new Dijkstra<string>();
