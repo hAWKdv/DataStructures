@@ -8,7 +8,7 @@
     using Graphs.Exceptions.Common;
     using Graphs.Algorithms.Delegates;
 
-    public sealed class Graph<T>
+    public sealed class Graph<T> : ICloneable
         where T : IComparable
     {
         private HashSet<INode<T>> nodes;
@@ -161,6 +161,30 @@
             }
 
             return this.mstStrategy.FindMST();
+        }
+
+        public object Clone()
+        {
+            Graph<T> clonedGraph = new Graph<T>();
+
+            foreach (INode<T> node in this.Nodes)
+            {
+                INode<T> clonedNode = (INode<T>)node.Clone();
+                clonedGraph.AddNode(clonedNode);
+            }
+
+            foreach (INode<T> node in this.Nodes)
+            {
+                foreach (IEdge<T> edge in node.AdjacentEdges)
+                {
+                    INode<T> clonedX = clonedGraph.FindNode(node.Value);
+                    INode<T> clonedY = clonedGraph.FindNode(edge.Node.Value);
+
+                    clonedX.DirectedConnection(clonedY, edge.Weight);
+                }
+            }
+
+            return clonedGraph;
         }
     }
 }

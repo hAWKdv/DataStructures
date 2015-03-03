@@ -26,8 +26,8 @@
             set
             {
                 this.graph = value;
-                // reference cloning
-                this.clonedNodes = new HashSet<INode<T>>(this.graph.Nodes);
+                Graph<T> clonedGraph = (Graph<T>)this.graph.Clone();
+                this.clonedNodes = clonedGraph.Nodes;
             }
         }
 
@@ -89,19 +89,9 @@
 
             this.Edges = new Queue<IDualEdge<T>>(edgesArray);
 
-            //test
             foreach (var node in this.clonedNodes)
             {
                 node.ClearAllLinks();
-            }
-        }
-
-        private void CloneNodes()
-        {
-            foreach (INode<T> node in this.graph.Nodes)
-            {
-                INode<T> cloned = (INode<T>)node.Clone();
-                this.clonedNodes.Add(cloned);
             }
         }
     }

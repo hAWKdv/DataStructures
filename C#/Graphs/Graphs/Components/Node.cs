@@ -70,13 +70,6 @@
             return this.Value.CompareTo(other.Value) == 0;
         }
 
-        //public override bool Equals(object obj)
-        //{
-        //    INode<T> node = (INode<T>)obj;
-
-        //    return this.Value.CompareTo(node.Value) == 0;
-        //}
-
         public object Clone()
         {
             INode<T> node = new Node<T>(this.Value);
