@@ -17,6 +17,7 @@
         public void Traverse(INode<T> startNode, TraverseManipulation<T> manipulation)
         {
             Queue<INode<T>> queue = new Queue<INode<T>>();
+            bool breakLoop = false;
 
             queue.Enqueue(startNode);
 
@@ -26,7 +27,13 @@
 
                 if (!currentNode.IsVisited)
                 {
-                    manipulation(currentNode);
+                    manipulation(currentNode, ref breakLoop);
+
+                    if (breakLoop)
+                    {
+                        break;
+                    }
+
                     currentNode.IsVisited = true;
 
                     foreach (IEdge<T> edge in currentNode.AdjacentEdges)

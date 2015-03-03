@@ -48,7 +48,7 @@
                 forest.AddNodes(edge.FirstNode, edge.SecondNode);
                 edge.FirstNode.UndirectedConnection(edge.SecondNode, edge.Weight);
 
-                forest.Traverse(edge.FirstNode, delegate(INode<T> node)
+                forest.Traverse(edge.FirstNode, delegate(INode<T> node, ref bool breakLoop)
                 {
                     int visited = 0;
 
@@ -63,7 +63,7 @@
                     if (visited >= 2)
                     {
                         edge.FirstNode.DisconnectFrom(edge.SecondNode);
-                        return;
+                        breakLoop = true;
                     }
                 });
             }

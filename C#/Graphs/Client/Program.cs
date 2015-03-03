@@ -50,18 +50,18 @@
             Console.WriteLine(graph.CalculateShortestPath(a, z));
  
 
-            graph.Traverse(a, delegate(INode<string> node)
-            {
-                Console.WriteLine(node.Value);
-            });
+            //graph.Traverse(a, delegate(INode<string> node)
+            //{
+            //    Console.WriteLine(node.Value);
+            //});
 
             Console.WriteLine();
 
             graph.TraversingStrategy = new BFS<string>();
-            graph.Traverse(a, delegate(INode<string> node)
-            {
-                Console.WriteLine(node.Value);
-            });
+            //graph.Traverse(a, delegate(INode<string> node)
+            //{
+            //    Console.WriteLine(node.Value);
+            //});
         }
 
         public static void PrintConnections(INode<string> node)
