@@ -39,6 +39,7 @@
             }
 
             this.UnvisitAllNodes();
+            // Reset nodes' costs
 
             return cost;
         }

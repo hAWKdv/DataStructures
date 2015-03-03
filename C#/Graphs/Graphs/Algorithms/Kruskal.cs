@@ -11,12 +11,25 @@
     public class Kruskal<T> : IMinimalSpanningTree<T>
         where T : IComparable 
     {
+        private ISet<INode<T>> clonedNodes;
+        private Graph<T> graph;
+
         public Kruskal()
         {
             this.Edges = new Queue<IDualEdge<T>>();
+            this.clonedNodes = new HashSet<INode<T>>();
         }
 
-        public Graph<T> Graph { get; set; }
+        public Graph<T> Graph
+        {
+            get { return this.graph; }
+            set
+            {
+                this.graph = value;
+                // reference cloning
+                this.clonedNodes = new HashSet<INode<T>>(this.graph.Nodes);
+            }
+        }
 
         public Queue<IDualEdge<T>> Edges { get; private set; }
 
@@ -26,34 +39,35 @@
             this.FillEdges();
 
             Graph<T> forest = new Graph<T>();
-            forest.TraversingStrategy = new BFS<T>();
+            forest.TraversingStrategy = new DFS<T>();
 
-            while (this.Edges.Count > 0)
+            while (this.Edges.Count > 0 /* and !spanning */)
             {
                 IDualEdge<T> edge = this.Edges.Dequeue();
 
-                if (!forest.Nodes.Contains(edge.FirstNode))
-                {
-                    edge.FirstNode.UndirectedConnection(edge.SecondNode, edge.Weight);
-                    forest.AddNode(edge.FirstNode);
-                }
+                forest.AddNodes(edge.FirstNode, edge.SecondNode);
+                edge.FirstNode.UndirectedConnection(edge.SecondNode, edge.Weight);
 
-                if (!forest.Nodes.Contains(edge.SecondNode))
-                {
-                    forest.AddNode(edge.SecondNode);
-                }
+                //foreach (INode<T> node in forest.Nodes)
+                //{
+                //    int visited = 0;
 
-                forest.Traverse(edge.FirstNode, delegate(INode<T> node)
-                {
-                    foreach (IEdge<T> adjEdge in node.AdjacentEdges)
-                    {
-                        if (adjEdge.Node.IsVisited)
-                        {
-                            edge.FirstNode.DisconnectFrom(edge.SecondNode);
-                            return;
-                        }
-                    }
-                });
+                //    foreach (IEdge<T> adjNode in node.AdjacentEdges)
+                //    {
+                //        if (adjNode.Node.IsVisited)
+                //        {
+                //            visited++;
+                //        }
+                //    }
+
+                //    node.IsVisited = true;
+
+                //    if (visited > 2)
+                //    {
+                //        edge.FirstNode.DisconnectFrom(edge.SecondNode);
+                //        break;
+                //    }
+                //}
             }
 
             return forest;
@@ -63,7 +77,7 @@
         {
             ISet<IDualEdge<T>> edges = new HashSet<IDualEdge<T>>();
 
-            foreach (var node in this.Graph.Nodes)
+            foreach (var node in this.clonedNodes)
             {
                 foreach (var edge in node.AdjacentEdges)
                 {
@@ -74,6 +88,21 @@
             IDualEdge<T>[] edgesArray = edges.OrderBy(e => e.Weight).ToArray();
 
             this.Edges = new Queue<IDualEdge<T>>(edgesArray);
+
+            //test
+            foreach (var node in this.clonedNodes)
+            {
+                node.ClearAllLinks();
+            }
+        }
+
+        private void CloneNodes()
+        {
+            foreach (INode<T> node in this.graph.Nodes)
+            {
+                INode<T> cloned = (INode<T>)node.Clone();
+                this.clonedNodes.Add(cloned);
+            }
         }
     }
 }

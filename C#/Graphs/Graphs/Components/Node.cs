@@ -7,11 +7,11 @@
     public sealed class Node<T> : INode<T>
         where T : IComparable
     {
-        private List<IEdge<T>> connections;
+        private List<IEdge<T>> adjacentEdges;
 
         public Node()
         {
-            this.connections = new List<IEdge<T>>();
+            this.adjacentEdges = new List<IEdge<T>>();
             this.Cost = int.MaxValue;
         }
 
@@ -31,7 +31,7 @@
         {
             get
             {
-                return this.connections;
+                return this.adjacentEdges;
             }
         }
 
@@ -55,6 +55,11 @@
             }
         }
 
+        public void ClearAllLinks()
+        {
+            this.adjacentEdges = new List<IEdge<T>>();
+        }
+
         public int CompareTo(INode<T> other)
         {
             return this.Value.CompareTo(other.Value);
@@ -64,6 +69,13 @@
         {
             return this.Value.CompareTo(other.Value) == 0;
         }
+
+        //public override bool Equals(object obj)
+        //{
+        //    INode<T> node = (INode<T>)obj;
+
+        //    return this.Value.CompareTo(node.Value) == 0;
+        //}
 
         public object Clone()
         {

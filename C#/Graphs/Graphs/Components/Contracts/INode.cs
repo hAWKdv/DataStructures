@@ -44,5 +44,10 @@
         /// 
         /// </summary>
         void DisconnectFrom(INode<T> node);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void ClearAllLinks();
     }
 }
