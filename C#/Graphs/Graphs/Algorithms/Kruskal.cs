@@ -33,7 +33,7 @@
 
         public Queue<IDualEdge<T>> Edges { get; private set; }
 
-        // Under heavy construction
+        // TODO: Optimization
         public Graph<T> FindMST()
         {
             this.FillEdges();
@@ -48,26 +48,24 @@
                 forest.AddNodes(edge.FirstNode, edge.SecondNode);
                 edge.FirstNode.UndirectedConnection(edge.SecondNode, edge.Weight);
 
-                //foreach (INode<T> node in forest.Nodes)
-                //{
-                //    int visited = 0;
+                forest.Traverse(edge.FirstNode, delegate(INode<T> node)
+                {
+                    int visited = 0;
 
-                //    foreach (IEdge<T> adjNode in node.AdjacentEdges)
-                //    {
-                //        if (adjNode.Node.IsVisited)
-                //        {
-                //            visited++;
-                //        }
-                //    }
+                    foreach (IEdge<T> adjNode in node.AdjacentEdges)
+                    {
+                        if (adjNode.Node.IsVisited)
+                        {
+                            visited++;
+                        }
+                    }
 
-                //    node.IsVisited = true;
-
-                //    if (visited > 2)
-                //    {
-                //        edge.FirstNode.DisconnectFrom(edge.SecondNode);
-                //        break;
-                //    }
-                //}
+                    if (visited >= 2)
+                    {
+                        edge.FirstNode.DisconnectFrom(edge.SecondNode);
+                        return;
+                    }
+                });
             }
 
             return forest;

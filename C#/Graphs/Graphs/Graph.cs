@@ -11,7 +11,7 @@
     public sealed class Graph<T> : ICloneable
         where T : IComparable
     {
-        private HashSet<INode<T>> nodes;
+        private ISet<INode<T>> nodes;
         private IShortestPath<T> shortestPathStrategy;
         private ITraverse<T> traversingStrategy;
         private IMinimalSpanningTree<T> mstStrategy;
@@ -71,7 +71,7 @@
             }
         }
 
-        public HashSet<INode<T>> Nodes
+        public ISet<INode<T>> Nodes
         {
             get
             {
