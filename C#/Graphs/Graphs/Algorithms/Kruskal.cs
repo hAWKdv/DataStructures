@@ -8,11 +8,16 @@
     using System.Linq;
     using Graphs.Components.Contracts;
 
+    /// <summary>
+    /// Finds the minimal spanning tree of the provided undirected graph using Kruskal's algorithm.
+    /// WARNING: Every .FindMST() execution creates a deep copy of the graph since the output tree
+    /// is a separate object (i.e. it is not interfering with graph nodes references).
+    /// </summary>
+    /// <typeparam name="T">IComparable generic type</typeparam>
     public sealed class Kruskal<T> : IMinimalSpanningTree<T>
         where T : IComparable 
     {
         private ISet<INode<T>> clonedNodes;
-        private Graph<T> graph;
 
         public Kruskal()
         {
@@ -20,23 +25,17 @@
             this.clonedNodes = new HashSet<INode<T>>();
         }
 
-        public Graph<T> Graph
-        {
-            get { return this.graph; }
-
-            set
-            {
-                this.graph = value;
-                Graph<T> clonedGraph = (Graph<T>)this.graph.Clone();
-                this.clonedNodes = clonedGraph.Nodes;
-            }
-        }
+        public Graph<T> Graph { get; set; }
 
         public Queue<IDualEdge<T>> Edges { get; private set; }
 
-        // TODO: Optimization
+        /// <summary>
+        /// Creates a deep copy of the graph and returns a new MST based on it.
+        /// </summary>
+        /// <returns>Returns Graph<T> minimal spanning tree</returns>
         public Graph<T> FindMST()
         {
+            this.CloneNodes();
             this.FillEdges();
 
             Graph<T> forest = new Graph<T>();
@@ -92,6 +91,12 @@
             {
                 node.ClearAllLinks();
             }
+        }
+
+        private void CloneNodes()
+        {
+            Graph<T> clonedGraph = (Graph<T>)this.Graph.Clone();
+            this.clonedNodes = clonedGraph.Nodes;
         }
     }
 }
