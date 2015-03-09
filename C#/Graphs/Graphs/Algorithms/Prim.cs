@@ -7,6 +7,7 @@
     using Graphs.Algorithms.Components;
     using Graphs.Algorithms.Components.Contracts;
     using Graphs.Components.Contracts;
+    using Graphs.Algorithms.Common;
 
     /// <summary>
     /// Finds the minimal spanning tree of the provided undirected graph using Prim's algorithm.
@@ -14,14 +15,12 @@
     /// as it is more memory efficient.
     /// </summary>
     /// <typeparam name="T">IComparable generic type</typeparam>
-    public sealed class Prim<T> : IMinimalSpanningTree<T>
+    public sealed class Prim<T> : AlgorithmCore<T>, IMinimalSpanningTree<T>
         where T : IComparable
     {
         public Prim()
         {
         }
-
-        public Graph<T> Graph { get; set; }
 
         public Graph<T> FindMST()
         {
@@ -41,6 +40,8 @@
                 minEdge.SecondNode.IsVisited = true;
                 nodes.Add(minEdge.SecondNode);
             }
+
+            this.UnvisitAllNodes();
 
             return tree;
         }

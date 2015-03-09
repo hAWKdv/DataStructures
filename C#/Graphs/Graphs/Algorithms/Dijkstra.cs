@@ -7,7 +7,7 @@
     using Graphs.Algorithms.Common;
     using System.Collections.Generic;
 
-    public sealed class Dijkstra<T> : AlgorithmCore<T>, IShortestPath<T>
+    public sealed class Dijkstra<T> : IShortestPath<T>
         where T : IComparable
     {
         private ISet<INode<T>> nodes;
@@ -15,6 +15,8 @@
         public Dijkstra()
         {
         }
+
+        public Graph<T> Graph { get; set; }
 
         public int CalculateShortestPath(INode<T> startNode, INode<T> targetNode)
         {
