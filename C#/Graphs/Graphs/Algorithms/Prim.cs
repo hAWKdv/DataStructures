@@ -8,6 +8,12 @@
     using Graphs.Algorithms.Components.Contracts;
     using Graphs.Components.Contracts;
 
+    /// <summary>
+    /// Finds the minimal spanning tree of the provided undirected graph using Prim's algorithm.
+    /// NOTE: The algorithm might perform better than Kruskal with the current graph architecture
+    /// as it is more memory efficient.
+    /// </summary>
+    /// <typeparam name="T">IComparable generic type</typeparam>
     public sealed class Prim<T> : IMinimalSpanningTree<T>
         where T : IComparable
     {
