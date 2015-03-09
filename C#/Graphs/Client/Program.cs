@@ -35,7 +35,7 @@
 
             //c.DisconnectFrom(d);
 
-            graph.MSTStrategy = new Kruskal<string>();
+            graph.MSTStrategy = new Prim<string>();
             var mst = graph.FindMST();
 
             foreach (var node in mst.Nodes)

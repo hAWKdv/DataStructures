@@ -50,6 +50,7 @@
     <Compile Include="Algorithms\Contracts\ITraverse.cs" />
     <Compile Include="Algorithms\Dijkstra.cs" />
     <Compile Include="Algorithms\Kruskal.cs" />
+    <Compile Include="Algorithms\Prim.cs" />
     <Compile Include="Components\Edge.cs" />
     <Compile Include="Components\Contracts\IEdge.cs" />
     <Compile Include="Components\Node.cs" />
