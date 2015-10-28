@@ -44,7 +44,19 @@ var LinkedList = (function() {
 
         return this;
     };
-    
+
+    LinkedList.prototype.forEach = function (func) {
+        function traverse(item) {
+            if (item.next) {
+                _traverse(item.next);
+            }
+
+            func(item.value);
+        }
+
+        traverse(this.head);
+    };
+
     return LinkedList;
 }());
 
@@ -52,7 +64,6 @@ var LinkedList = (function() {
 var list = new LinkedList(1);
 list.insert(2, 3, 4);
 
-console.log(list.head.value);
-console.log(list.head.next.value);
-console.log(list.head.next.next.value);
-console.log(list.head.next.next.next.value);
+list.forEach(function (item) {
+    console.log(item);
+});
