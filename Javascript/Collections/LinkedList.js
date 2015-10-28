@@ -25,7 +25,7 @@ var LinkedList = (function() {
     }
 
     LinkedList.prototype.insert = function(value) {
-
+        
     };
 
     return LinkedList;
