@@ -55,21 +55,35 @@ var LinkedList = (function() {
         return this;
     };
 
-    //LinkedList.prototype.delete = function(value) {
-    //    var previous;
-    //
-    //    function traverse(item) {
-    //        if (item.value === value) {
-    //            item = item.next;
-    //        }
-    //
-    //        if (item.next) {
-    //            traverse(item.next);
-    //        }
-    //    }
-    //
-    //    traverse(this.head);
-    //};
+    LinkedList.prototype.delete = function(value) {
+        var self = this,
+            previous;
+
+        function traverse(item) {
+            if (item.value === value) {
+                if (previous) {
+                    previous.next = item.next;
+
+                    if (!previous.next) {
+                        self.tail = previous;
+                    }
+                } else {
+                    self.head = item.next;
+                }
+
+                _length -= 1;
+
+                return;
+            }
+
+            if (item.next) {
+                previous = item;
+                traverse(item.next);
+            }
+        }
+
+        traverse(this.head);
+    };
 
     // Used to iterate through list.
     LinkedList.prototype.forEach = function(func) {
@@ -94,6 +108,10 @@ var LinkedList = (function() {
         return array;
     };
 
+    LinkedList.prototype.empty = function() {
+
+    };
+
     // Returns the length of the list
     LinkedList.prototype.getLength = function () {
         return _length;
@@ -106,11 +124,14 @@ var LinkedList = (function() {
 var list = new LinkedList(1);
 list.insert(2, 3, 4);
 
-list.forEach(function (item) {
-    //console.log(item);
-});
+list.delete(3);
 
-//list.delete(2);
+console.log(list.head.value);
+console.log(list.tail.value);
+
+list.forEach(function (item) {
+    console.log(item);
+});
 
 console.log(list.toArray());
 
