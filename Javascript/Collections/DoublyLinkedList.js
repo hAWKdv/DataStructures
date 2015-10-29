@@ -1,6 +1,9 @@
-"use strict";
+var DoublyLinkedList,
+    Item;
 
-var Item = (function() {
+Item = (function() {
+    "use strict";
+
     function Item(value) {
         this.value = value;
     }
@@ -11,10 +14,18 @@ var Item = (function() {
         }
     };
 
+    Item.prototype.setPrev = function(prev) {
+        if (prev instanceof Item) {
+            this.prev = prev;
+        }
+    };
+
     return Item;
 }());
 
-var LinkedList = (function(Item) {
+DoublyLinkedList = (function(Item) {
+    "use strict";
+
     var _length = 0;
 
     function _insertNewItem(value) {
@@ -24,6 +35,8 @@ var LinkedList = (function(Item) {
             newItem = new Item(value);
 
             this.tail.setNext(newItem);
+            newItem.setPrev(this.tail);
+
             this.tail = newItem;
         } else {
             this.head.value = value;
@@ -72,7 +85,7 @@ var LinkedList = (function(Item) {
         function traverse(item) {
             if (item.value === value) {
                 if (previous) {
-                    previous.setNext(item.next);
+                    previous.next = item.next;
 
                     if (!previous.next) {
                         self.tail = previous;
@@ -148,4 +161,7 @@ var LinkedList = (function(Item) {
     return LinkedList;
 }(Item));
 
-module.exports = LinkedList;
+module.exports = {
+    Item: Item,
+    DoublyLinkedList: DoublyLinkedList
+};
