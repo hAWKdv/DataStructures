@@ -9,7 +9,7 @@ var LinkedList = (function() {
             this.value = value;
         }
         
-        Item.prototype.setNext = function (next) {
+        Item.prototype.setNext = function(next) {
             if (next instanceof Item) {
                 this.next = next;
             }
@@ -55,17 +55,43 @@ var LinkedList = (function() {
         return this;
     };
 
-    // Used to iterate through list. Note that it does it backwards.
-    LinkedList.prototype.forEach = function (func) {
+    //LinkedList.prototype.delete = function(value) {
+    //    var previous;
+    //
+    //    function traverse(item) {
+    //        if (item.value === value) {
+    //            item = item.next;
+    //        }
+    //
+    //        if (item.next) {
+    //            traverse(item.next);
+    //        }
+    //    }
+    //
+    //    traverse(this.head);
+    //};
+
+    // Used to iterate through list.
+    LinkedList.prototype.forEach = function(func) {
         function traverse(item) {
+            func(item);
+
             if (item.next) {
                 traverse(item.next);
             }
-
-            func(item.value);
         }
 
         traverse(this.head);
+    };
+
+    LinkedList.prototype.toArray = function() {
+        var array = [];
+
+        this.forEach(function(item) {
+            array.push(item.value);
+        });
+
+        return array;
     };
 
     // Returns the length of the list
@@ -81,8 +107,12 @@ var list = new LinkedList(1);
 list.insert(2, 3, 4);
 
 list.forEach(function (item) {
-    console.log(item);
+    //console.log(item);
 });
+
+//list.delete(2);
+
+console.log(list.toArray());
 
 console.log("----");
 
