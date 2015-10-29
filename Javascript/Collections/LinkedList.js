@@ -19,10 +19,16 @@ var LinkedList = (function() {
     }());
 
     function _insertNewItem(value) {
-        var newItem = new Item(value);
+        var newItem;
 
-        this.tail.setNext(newItem);
-        this.tail = newItem;
+        if (this.head.value) {
+            newItem = new Item(value);
+
+            this.tail.setNext(newItem);
+            this.tail = newItem;
+        } else {
+            this.head.value = value;
+        }
 
         _length += 1;
     }
@@ -59,6 +65,11 @@ var LinkedList = (function() {
         var self = this,
             previous;
 
+        if (_length === 1 && this.head.value === value) {
+            this.empty();
+            return;
+        }
+
         function traverse(item) {
             if (item.value === value) {
                 if (previous) {
@@ -85,12 +96,27 @@ var LinkedList = (function() {
         traverse(this.head);
     };
 
+    LinkedList.prototype.exists = function(value) {
+        var isExistent = false;
+
+        this.forEach(function(item) {
+            if (item.value === value) {
+                isExistent = true;
+                return true;
+            }
+        });
+
+        return isExistent;
+    };
+
     // Used to iterate through list.
     LinkedList.prototype.forEach = function(func) {
         function traverse(item) {
-            func(item);
+            var isStopped = false;
 
-            if (item.next) {
+            isStopped = func(item);
+
+            if (item.next && !isStopped) {
                 traverse(item.next);
             }
         }
@@ -109,7 +135,10 @@ var LinkedList = (function() {
     };
 
     LinkedList.prototype.empty = function() {
+        this.head = new Item();
+        this.tail = this.head;
 
+        _length = 0;
     };
 
     // Returns the length of the list
@@ -121,20 +150,27 @@ var LinkedList = (function() {
 }());
 
 // NOTE: Test only
-var list = new LinkedList(1);
-list.insert(2, 3, 4);
+var list = new LinkedList();
+//list.insert(2, 3, 4);
 
-list.delete(3);
+//list.delete(3);
 
-console.log(list.head.value);
-console.log(list.tail.value);
+list.insert(1);
+
+list.delete(1);
+list.insert(3, 4, 5);
+console.log(list.exists(8));
+//list.empty();
+
+//console.log(list.head.value);
+//console.log(list.tail.value);
 
 list.forEach(function (item) {
-    console.log(item);
+    //console.log(item);
 });
 
-console.log(list.toArray());
+//console.log(list.toArray());
 
 console.log("----");
 
-console.log(list.getLength());
+//console.log(list.getLength());
