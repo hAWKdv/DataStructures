@@ -1,9 +1,9 @@
+"use strict";
+
 var DoublyLinkedList,
     Item;
 
 Item = (function() {
-    "use strict";
-
     function Item(value) {
         this.value = value;
     }
@@ -24,10 +24,6 @@ Item = (function() {
 }());
 
 DoublyLinkedList = (function(Item) {
-    "use strict";
-
-    var _length = 0;
-
     function _insertNewItem(value) {
         var newItem;
 
@@ -42,20 +38,22 @@ DoublyLinkedList = (function(Item) {
             this.head.value = value;
         }
 
-        _length += 1;
+        this._length += 1;
     }
 
-    function LinkedList(value) {
+    function DoublyLinkedList(value) {
         this.head = new Item(value);
         this.tail = this.head;
 
-        if (value) {
-            _length += 1;
+        if (!value) {
+            this._length = 0;
+        } else {
+            this._length = 1;
         }
     }
 
     // Allows insert
-    LinkedList.prototype.insert = function() {
+    DoublyLinkedList.prototype.insert = function() {
         var self,
             args;
 
@@ -73,11 +71,11 @@ DoublyLinkedList = (function(Item) {
         return this;
     };
 
-    LinkedList.prototype.delete = function(value) {
+    DoublyLinkedList.prototype.delete = function(value) {
         var self = this,
             previous;
 
-        if (_length === 1 && this.head.value === value) {
+        if (this._length === 1 && this.head.value === value) {
             this.empty();
             return;
         }
@@ -94,7 +92,7 @@ DoublyLinkedList = (function(Item) {
                     self.head = item.next;
                 }
 
-                _length -= 1;
+                self._length -= 1;
 
                 return;
             }
@@ -108,7 +106,7 @@ DoublyLinkedList = (function(Item) {
         traverse(this.head);
     };
 
-    LinkedList.prototype.exists = function(value) {
+    DoublyLinkedList.prototype.exists = function(value) {
         var isExistent = false;
 
         this.forEach(function(item) {
@@ -122,7 +120,7 @@ DoublyLinkedList = (function(Item) {
     };
 
     // Used to iterate through list.
-    LinkedList.prototype.forEach = function(func) {
+    DoublyLinkedList.prototype.forEach = function(func) {
         function traverse(item) {
             var shouldStop;
 
@@ -136,7 +134,7 @@ DoublyLinkedList = (function(Item) {
         traverse(this.head);
     };
 
-    LinkedList.prototype.toArray = function() {
+    DoublyLinkedList.prototype.toArray = function() {
         var array = [];
 
         this.forEach(function(item) {
@@ -146,19 +144,19 @@ DoublyLinkedList = (function(Item) {
         return array;
     };
 
-    LinkedList.prototype.empty = function() {
+    DoublyLinkedList.prototype.empty = function() {
         this.head = new Item();
         this.tail = this.head;
 
-        _length = 0;
+        this._length = 0;
     };
 
     // Returns the length of the list
-    LinkedList.prototype.getLength = function () {
-        return _length;
+    DoublyLinkedList.prototype.getLength = function () {
+        return this._length;
     };
 
-    return LinkedList;
+    return DoublyLinkedList;
 }(Item));
 
 module.exports = {

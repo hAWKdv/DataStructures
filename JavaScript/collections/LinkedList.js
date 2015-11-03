@@ -1,6 +1,9 @@
 "use strict";
 
-var Item = (function() {
+var LinkedList,
+    Item;
+
+Item = (function() {
     function Item(value) {
         this.value = value;
     }
@@ -14,9 +17,7 @@ var Item = (function() {
     return Item;
 }());
 
-var LinkedList = (function(Item) {
-    var _length = 0;
-
+LinkedList = (function(Item) {
     function _insertNewItem(value) {
         var newItem;
 
@@ -29,15 +30,17 @@ var LinkedList = (function(Item) {
             this.head.value = value;
         }
 
-        _length += 1;
+        this._length += 1;
     }
 
     function LinkedList(value) {
         this.head = new Item(value);
         this.tail = this.head;
 
-        if (value) {
-            _length += 1;
+        if (!value) {
+            this._length = 0;
+        } else {
+            this._length = 1;
         }
     }
 
@@ -64,7 +67,7 @@ var LinkedList = (function(Item) {
         var self = this,
             previous;
 
-        if (_length === 1 && this.head.value === value) {
+        if (this._length === 1 && this.head.value === value) {
             this.empty();
             return;
         }
@@ -81,7 +84,7 @@ var LinkedList = (function(Item) {
                     self.head = item.next;
                 }
 
-                _length -= 1;
+                self._length -= 1;
 
                 return;
             }
@@ -137,12 +140,12 @@ var LinkedList = (function(Item) {
         this.head = new Item();
         this.tail = this.head;
 
-        _length = 0;
+        this._length = 0;
     };
 
     // Returns the length of the list
     LinkedList.prototype.getLength = function () {
-        return _length;
+        return this._length;
     };
 
     return LinkedList;
