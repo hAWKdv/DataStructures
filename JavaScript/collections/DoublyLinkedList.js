@@ -72,38 +72,7 @@ DoublyLinkedList = (function(Item) {
     };
 
     DoublyLinkedList.prototype.delete = function(value) {
-        var self = this,
-            previous;
-
-        if (this._length === 1 && this.head.value === value) {
-            this.empty();
-            return;
-        }
-
-        function traverse(item) {
-            if (item.value === value) {
-                if (previous) {
-                    previous.next = item.next;
-
-                    if (!previous.next) {
-                        self.tail = previous;
-                    }
-                } else {
-                    self.head = item.next;
-                }
-
-                self._length -= 1;
-
-                return;
-            }
-
-            if (item.next) {
-                previous = item;
-                traverse(item.next);
-            }
-        }
-
-        traverse(this.head);
+        // todo
     };
 
     DoublyLinkedList.prototype.exists = function(value) {
