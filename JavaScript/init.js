@@ -13,6 +13,7 @@ list.insert(1);
 
 list.delete(1);
 list.insert(3, 4, 5);
+list.delete(4);
 //console.log(list.exists(8));
 //list.empty();
 

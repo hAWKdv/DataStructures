@@ -64,38 +64,14 @@ LinkedList = (function(Item) {
     };
 
     LinkedList.prototype.delete = function(value) {
-        var self = this,
-            previous;
+        var previous = null;
 
         if (this._length === 1 && this.head.value === value) {
             this.empty();
             return;
         }
 
-        function traverse(item) {
-            if (item.value === value) {
-                if (previous) {
-                    previous.setNext(item.next);
-
-                    if (!previous.next) {
-                        self.tail = previous;
-                    }
-                } else {
-                    self.head = item.next;
-                }
-
-                self._length -= 1;
-
-                return;
-            }
-
-            if (item.next) {
-                previous = item;
-                traverse(item.next);
-            }
-        }
-
-        traverse(this.head);
+        _deleteTraverse(this, this.head, value, previous);
     };
 
     LinkedList.prototype.exists = function(value) {
@@ -147,6 +123,30 @@ LinkedList = (function(Item) {
     LinkedList.prototype.getLength = function () {
         return this._length;
     };
+
+    // Traverse method used for deleting of an item
+    function _deleteTraverse(self, item, value, previous) {
+        if (item.value === value) {
+            if (previous) {
+                previous.setNext(item.next);
+
+                if (!previous.next) {
+                    self.tail = previous;
+                }
+            } else {
+                self.head = item.next;
+            }
+
+            self._length -= 1;
+
+            return;
+        }
+
+        if (item.next) {
+            previous = item;
+            _deleteTraverse(self, item.next, value, previous);
+        }
+    }
 
     return LinkedList;
 }(Item));
