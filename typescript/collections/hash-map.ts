@@ -13,7 +13,7 @@ export class HashMap<T> {
     return this._arr[hash];
   }
 
-  // This is not a proper has function! It may result in collisions easily
+  // This is not a proper hash function! It may result in collisions easily
   private _hash(key: string): number {
     return new Array(key.length)
       .fill(0)
