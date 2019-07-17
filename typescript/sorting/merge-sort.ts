@@ -33,18 +33,9 @@ export function mergeSort<T>(arr: T[]): T[] {
     return arr;
   }
 
-  let left = [];
-  let right = [];
   const mid = arr.length / 2;
-
-  for (let i = 0; i < arr.length; i++) {
-    const el = arr[i];
-    if (i < mid) {
-      left.push(el);
-    } else {
-      right.push(el);
-    }
-  }
+  let left = arr.slice(0, mid);
+  let right = arr.slice(mid, arr.length);
 
   left = mergeSort(left);
   right = mergeSort(right);
