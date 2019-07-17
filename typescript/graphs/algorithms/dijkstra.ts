@@ -1,4 +1,4 @@
-import { Vertex } from '../graphs/graph';
+import { Vertex } from '../graph';
 
 // The proper implementation should use a minimal heap instead
 class VertexList<T> {
