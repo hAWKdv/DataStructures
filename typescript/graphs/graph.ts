@@ -1,34 +1,23 @@
-export class Vertex<T, U> {
-  edges: Set<Edge<T, U>> = new Set();
-
-  constructor(public value: T) {}
-
-  addEdge(edge: Edge<T, U>) {
-    this.edges.add(edge);
-  }
-}
-
 export class Edge<T, U> {
   constructor(
-    public start: Vertex<T, U>,
-    public end: Vertex<T, U>,
+    public vertex: Vertex<T, U>,
     public weight?: U
   ) {}
 }
 
-export class Graph<T, U> {
-  vertices: Set<Vertex<T, U>> = new Set();
-  edges: Set<Edge<T, U>> = new Set();
+export class Vertex<T, U> {
+  edges: Edge<T, U>[] = [];
 
-  addEdge(from: Vertex<T, U>, to: Vertex<T, U>, weight?: U) {
-    if (!this.vertices.has(from)) {
-      this.vertices.add(from);
-    }
-    if (!this.vertices.has(to)) {
-      this.vertices.add(to);
+  constructor(public value: T) {}
+
+  addAdjacentVertex(v: Vertex<T, U>, directed: boolean, weight?: U): this {
+    const edge = new Edge(v, weight);
+    this.edges.push(edge);
+
+    if (!directed) {
+      v.addAdjacentVertex(this, true, weight);
     }
 
-    const edge = new Edge<T, U>(from, to, weight);
-    this.edges.add(edge);
+    return this;
   }
 }
