@@ -11,11 +11,51 @@ export class BinarySearchTree<T> extends Tree<T> {
   }
 
   delete(value: T): void {
+    const result = this._searchNode(this.root, value);
+    if (!result) {
+      return;
+    }
 
+    const [ node, parent ] = result;
+    const childrenNum = node.children.filter(c => !!c).length;
+
+    if (!childrenNum) {
+      if (parent.children[0] === node) {
+        parent.children[0] = undefined;
+      } else {
+        parent.children[1] = undefined;
+      }
+    } else if (childrenNum === 1) {
+      const child = node.children[0] || node.children[1];
+      node.value = child.value;
+      node.children = [];
+    } else {
+      let swapNodeParent = node;
+      let swapNode = node.children[0];
+
+      while (swapNode) {
+        if (swapNode.children[0]) {
+          swapNodeParent = swapNode;
+          swapNode = swapNode.children[0];
+        } else if (swapNode.children[1]) {
+          swapNodeParent = swapNode;
+          swapNode = swapNode.children[1];
+        } else {
+          break;
+        }
+      }
+
+      node.value = swapNode.value;
+      swapNodeParent.children = swapNodeParent.children.filter(n => n !== swapNode);
+    }
   }
 
-  has(value: T): boolean {
-    return this._searchValue(this.root, value);
+  get(value: T): Node<T> | null {
+    const result = this._searchNode(this.root, value);
+    if (result) {
+      return result[0];
+    }
+    return null;
   }
 
   private _addNewNode(n: Node<T>, newNode: Node<T>): void {
@@ -34,19 +74,19 @@ export class BinarySearchTree<T> extends Tree<T> {
     }
   }
 
-  private _searchValue(n: Node<T>, v: T): boolean {
+  private _searchNode(n: Node<T>, v: T, parent?: Node<T>): [Node<T>, Node<T>] | null {
     if (n.value === v) {
-      return true;
+      return [n, parent];
     }
     const left = n.children[0];
-    if (left && v < left.value) {
-      return this._searchValue(left, v);
+    if (left && v < n.value) {
+      return this._searchNode(left, v, n);
     }
     const right = n.children[1];
     if (right) {
-      return this._searchValue(right, v);
+      return this._searchNode(right, v, n);
     }
-    return false;
+    return null;
   }
 
   toString(): string {
@@ -56,11 +96,13 @@ export class BinarySearchTree<T> extends Tree<T> {
 
     while (queue.length) {
       const n = queue.shift();
-      const left = n.children[0];
-      const right = n.children[1];
-      str += `${n.value} -> ${left ? left.value : '_'}, ${right ? right.value : '_'}\n`;
+      if (n) {
+        const left = n.children[0];
+        const right = n.children[1];
+        str += `${n.value} -> ${left ? left.value : '_'}, ${right ? right.value : '_'}\n`;
 
-      n.children.forEach((c: Node<T>) => queue.push(c));
+        n.children.forEach((c: Node<T>) => queue.push(c));
+      }
     }
 
     return str;
@@ -70,13 +112,27 @@ export class BinarySearchTree<T> extends Tree<T> {
 // Demo:
 
 const bst = new BinarySearchTree<number>();
-bst.add(3);
-bst.add(2);
-bst.add(1);
 bst.add(5);
+bst.add(3);
 bst.add(6);
+bst.add(5);
+bst.add(7);
+bst.add(8);
+bst.add(7);
+bst.add(4);
+bst.add(1);
 
 console.log(bst.toString());
 
-console.log('Is there 9:', bst.has(9));
-console.log('Is there 5:', bst.has(5));
+console.log('Is there 1:', bst.get(1));
+console.log('Is there 5:', !!bst.get(5));
+console.log('Is there 9:', bst.get(9));
+
+bst.delete(1);
+console.log(bst.toString());
+
+bst.delete(8);
+console.log(bst.toString());
+
+bst.delete(6);
+console.log(bst.toString());
