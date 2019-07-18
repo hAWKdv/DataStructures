@@ -1,6 +1,8 @@
 import { Graph } from '../graph';
 
+// Kahn's Algorithm
 // This doesn't check if the graph is acyclic!
+// G is presumably a DAG
 function topologicalSort<T>(g: Graph<T>): T[] {
   g = g.copy();
   const sorted: T[] = [];
