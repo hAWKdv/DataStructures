@@ -11,4 +11,18 @@ export class Node<T> {
 
 export class Tree<T> {
   constructor(public root?: Node<T>) {}
+
+  toString(): string {
+    let str = '';
+    const queue = [this.root];
+
+    while (queue.length) {
+      const node = queue.shift();
+      str += node.value + ' -> ' + (node.children.map(v => v.value.toString()).join(', ') || 'NULL') + '\n';
+
+      node.children.forEach(c => queue.push(c));
+    }
+
+    return str;
+  }
 }
