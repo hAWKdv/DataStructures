@@ -1,10 +1,12 @@
 export class Node<T> {
+  parent: Node<T> | undefined;
   children: Node<T>[] = [];
 
   constructor(public value: T) {}
 
   addChild(value: T) {
     const node = new Node(value);
+    node.parent = this;
     this.children.push(node);
   }
 }

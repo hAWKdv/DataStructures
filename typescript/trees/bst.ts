@@ -1,5 +1,8 @@
 import { Node, Tree } from './tree';
 
+const LeftChildIdx = 0;
+const RightChildIdx = 1;
+
 export class BinarySearchTree<T> extends Tree<T> {
   add(value: T): void {
     const node = new Node(value);
@@ -16,30 +19,33 @@ export class BinarySearchTree<T> extends Tree<T> {
       return;
     }
 
-    const [ node, parent ] = result;
+    const node = result;
     const childrenNum = node.children.filter(c => !!c).length;
 
     if (!childrenNum) {
-      if (parent.children[0] === node) {
-        parent.children[0] = undefined;
+      const [parentLeftChild] = node.parent.children;
+
+      if (parentLeftChild === node) {
+        delete node.parent.children[LeftChildIdx];
       } else {
-        parent.children[1] = undefined;
+        delete node.parent.children[RightChildIdx];
       }
     } else if (childrenNum === 1) {
-      const child = node.children[0] || node.children[1];
+      const [left, right] = node.children;
+      const child = left || right;
       node.value = child.value;
       node.children = [];
     } else {
       let swapNodeParent = node;
-      let swapNode = node.children[0];
+      let swapNode = node.children[LeftChildIdx];
 
       while (swapNode) {
-        if (swapNode.children[0]) {
+        if (swapNode.children[LeftChildIdx]) {
           swapNodeParent = swapNode;
-          swapNode = swapNode.children[0];
-        } else if (swapNode.children[1]) {
+          swapNode = swapNode.children[LeftChildIdx];
+        } else if (swapNode.children[RightChildIdx]) {
           swapNodeParent = swapNode;
-          swapNode = swapNode.children[1];
+          swapNode = swapNode.children[RightChildIdx];
         } else {
           break;
         }
@@ -51,14 +57,12 @@ export class BinarySearchTree<T> extends Tree<T> {
   }
 
   get(value: T): Node<T> | null {
-    const result = this._searchNode(this.root, value);
-    if (result) {
-      return result[0];
-    }
-    return null;
+    return this._searchNode(this.root, value);
   }
 
   private _addNewNode(n: Node<T>, newNode: Node<T>): void {
+    newNode.parent = n;
+
     const move = (idx: number) => {
       if (n.children[idx]) {
         this._addNewNode(n.children[idx], newNode);
@@ -74,17 +78,16 @@ export class BinarySearchTree<T> extends Tree<T> {
     }
   }
 
-  private _searchNode(n: Node<T>, v: T, parent?: Node<T>): [Node<T>, Node<T>] | null {
+  private _searchNode(n: Node<T>, v: T): Node<T> | null {
     if (n.value === v) {
-      return [n, parent];
+      return n;
     }
-    const left = n.children[0];
+    const [left, right] = n.children;
     if (left && v < n.value) {
-      return this._searchNode(left, v, n);
+      return this._searchNode(left, v);
     }
-    const right = n.children[1];
     if (right) {
-      return this._searchNode(right, v, n);
+      return this._searchNode(right, v);
     }
     return null;
   }
@@ -97,8 +100,7 @@ export class BinarySearchTree<T> extends Tree<T> {
     while (queue.length) {
       const n = queue.shift();
       if (n) {
-        const left = n.children[0];
-        const right = n.children[1];
+        const [left, right] = n.children;
         str += `${n.value} -> ${left ? left.value : '_'}, ${right ? right.value : '_'}\n`;
 
         n.children.forEach((c: Node<T>) => queue.push(c));
