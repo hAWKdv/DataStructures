@@ -3,9 +3,9 @@ import { Node, Tree } from './tree';
 const LeftChildIdx = 0;
 const RightChildIdx = 1;
 
-export class BinarySearchTree<T> extends Tree<T> {
+export class BinarySearchTree<T, U = {}> extends Tree<T, U> {
   add(value: T): void {
-    const node = new Node(value);
+    const node = new Node<T, U>(value);
     if (this.root) {
       this._addNewNode(this.root, node);
     } else {
@@ -60,7 +60,7 @@ export class BinarySearchTree<T> extends Tree<T> {
     return this._searchNode(this.root, value);
   }
 
-  private _addNewNode(n: Node<T>, newNode: Node<T>): void {
+  protected _addNewNode(n: Node<T>, newNode: Node<T>): void {
     newNode.parent = n;
 
     const move = (idx: number) => {
