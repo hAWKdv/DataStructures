@@ -39,7 +39,7 @@ export class AVL<T> extends BinarySearchTree<T, NodeMetadata> {
 
     const parentBalance = node.parent.metadata.balance;
 
-    if (parentBalance < -1 && 1 < parentBalance) {
+    if (parentBalance < -1 || 1 < parentBalance) {
       const { balance } = node.metadata;
 
       // Case I: Path-like structure (i.e. left rotation)
