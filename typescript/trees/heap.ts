@@ -33,10 +33,22 @@ export class Heap<T> {
   }
 
   private _balanceExtract(idx: number) {
+    let smallest = idx;
     let leftChild = this._getLeftIdx(idx);
     let rightChild = this._getRightIdx(idx);
 
-    // todo
+    if (this._arr[idx] > this._arr[leftChild]) {
+      smallest = leftChild;
+    }
+    if (this._arr[idx] > this._arr[rightChild]) {
+      smallest = rightChild;
+    }
+    if (smallest !== idx) {
+      const swap = this._arr[idx];
+      this._arr[idx] = this._arr[smallest];
+      this._arr[smallest] = swap;
+      this._balanceExtract(smallest);
+    }
   }
 
   private _getParentIdx(i: number) {
