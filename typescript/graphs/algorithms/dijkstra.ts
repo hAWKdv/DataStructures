@@ -1,44 +1,26 @@
-import { Vertex } from '../graph';
+import { Vertex as GenericVertex } from '../graph';
+import { Heap } from '../../trees/heap';
+import { CompareSym } from '../../common/interfaces/Comparer';
 
-// The proper implementation should use a minimal heap instead
-class VertexList<T> {
-  private _arr: T[];
+type Vertex<T> = GenericVertex<T, number>;
 
-  constructor(arr?: T[]) {
-    this._arr = arr || [];
-  }
-
-  size() {
-    return this._arr.length;
-  }
-
-  push(v: T) {
-    this._arr.push(v);
-  }
-
-  min(p: (v: T) => number): T {
-    let min = 0;
-
-    this._arr.forEach((v, i) => {
-      if (p(v) < p(this._arr[min])) {
-        min = i;
-      }
-    });
-
-    const minT = this._arr[min];
-    this._arr.splice(min, 1);
-
-    return minT;
-  }
-}
-
-function dijkstra<T>(from: Vertex<T, number>, to: Vertex<T, number>): number {
-  const visited: Set<Vertex<T, number>> = new Set;
-  const vlist: VertexList<Vertex<T, number>> = new VertexList([from]);
+function dijkstra<T>(from: Vertex<T>, to: Vertex<T>): number {
+  const visited: Set<Vertex<T>> = new Set;
   const distances: Map<T, number> = new Map([[ from.value, 0 ]]);
+  const compare = (a: Vertex<T>, sym: CompareSym, b: Vertex<T>) => {
+    if (!a || !b) {
+      return false;
+    }
+    if (sym === CompareSym.GT) {
+      return distances.get(a.value) > distances.get(b.value);
+    } else {
+      throw new Error('Comparison not implemented');
+    }
+  };
+  const heap = new Heap(from, compare);
 
-  while (vlist.size()) {
-    const v = vlist.min((vt) => distances.get(vt.value));
+  while (!heap.empty) {
+    const v = heap.extractMin();
     visited.add(v);
     const distance = distances.get(v.value);
     const nonVisited = v.edges.filter(e => !visited.has(e.vertex));
@@ -52,7 +34,7 @@ function dijkstra<T>(from: Vertex<T, number>, to: Vertex<T, number>): number {
       }
     });
 
-    nonVisited.forEach(e => vlist.push(e.vertex));
+    nonVisited.forEach(e => heap.insert(e.vertex));
   }
 
   return distances.get(to.value);
@@ -60,12 +42,12 @@ function dijkstra<T>(from: Vertex<T, number>, to: Vertex<T, number>): number {
 
 // Demo:
 
-const vertexA = new Vertex<string, number>('A');
-const vertexB = new Vertex<string, number>('B');
-const vertexC = new Vertex<string, number>('C');
-const vertexD = new Vertex<string, number>('D');
-const vertexE = new Vertex<string, number>('E');
-const vertexF = new Vertex<string, number>('F');
+const vertexA = new GenericVertex<string, number>('A');
+const vertexB = new GenericVertex<string, number>('B');
+const vertexC = new GenericVertex<string, number>('C');
+const vertexD = new GenericVertex<string, number>('D');
+const vertexE = new GenericVertex<string, number>('E');
+const vertexF = new GenericVertex<string, number>('F');
 
 vertexA
   .addAdjacentVertex(vertexB, false, 2)
