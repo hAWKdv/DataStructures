@@ -7,8 +7,8 @@ export class Node<T, U = {}> {
     public metadata?: U
   ) {}
 
-  addChild(value: T) {
-    const node = new Node<T, U>(value);
+  addChild(value: T, metadata?: U) {
+    const node = new Node<T, U>(value, metadata);
     node.parent = this;
     this.children.push(node);
   }
