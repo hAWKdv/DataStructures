@@ -8,7 +8,7 @@ avl.add(5);
 avl.add(7);
 avl.add(8);
 avl.add(7);
-avl.add(4);
-avl.add(1);
+// avl.add(4);
+// avl.add(1);
 
 console.log(avl.toString());
