@@ -61,12 +61,11 @@ export class BinarySearchTree<T, U = {}> extends Tree<T, U> {
   }
 
   protected _addNewNode(n: Node<T>, newNode: Node<T>): void {
-    newNode.parent = n;
-
     const move = (idx: number) => {
       if (n.children[idx]) {
         this._addNewNode(n.children[idx], newNode);
       } else {
+        newNode.parent = n;
         n.children[idx] = newNode;
       }
     };
